@@ -101,7 +101,7 @@ resource "aws_instance" "instance" {
 ## DNS records (route 53)
 
 resource "aws_route53_record" "dns" {
-  zone_id = "Z0813336265YWMY8TXWPD"      #"Z00238782DN7KNOSJPFLV"
+  zone_id = "Z00238782DN7KNOSJPFLV"
   name    = "${var.component}-dev"
   type    = "A"
   ttl     = 30
@@ -111,7 +111,7 @@ resource "aws_route53_record" "dns" {
 
 resource "null_resource" "ansible" {
   depends_on = [aws_instance.instance,aws_route53_record.dns] # We have written this once ec2 instances and route 53 records have been created we need to start the remote execution.
-  provisioner "remote-exec" {
+   provisioner "remote-exec" {
 
     connection {
       type     = "ssh"
