@@ -30,6 +30,7 @@ resource "aws_iam_policy" "policy" {
 
 ## IAM role
 ## We have created a role manually, select trust relationship tab and copy the role information
+##  After creaton of role we need to attach the policy to the role.
 
 resource "aws_iam_role" "role" {
   name = "${var.component}-${var.env}-EC2-Role"
@@ -52,33 +53,13 @@ resource "aws_iam_instance_profile" "instance_profile" {
   name = "${var.component}-${var.env}-instance_profile"
   role = aws_iam_role.role.name
 }
+
+resource "aws_iam_role_policy_attachment" "policy-attach" {
+  role       = aws_iam_role.role.name
+  policy_arn = aws_iam_policy.policy.arn
+}
 ## Security group
 
-#
-#resource "aws_security_group" "sg" {
-#  name        = "${var.component}-${var.env}-sg"
-#  description = "${var.component}-${var.env}-sg"
-#
-#
-#
-#  # Here we are opening all the ports
-#  ingress {
-#    from_port   = 0
-#    to_port     = 0
-#    protocol    = "-1"  # -1 opens all the ports
-#    cidr_blocks = ["0.0.0.0/0"]
-#  }
-#
-#  egress {
-#    from_port   = 0
-#    to_port     = 0
-#    protocol    = "-1"
-#    cidr_blocks = ["0.0.0.0/0"]
-#  }
-#  tags = {
-#    Name = "${var.component}-${var.env}-sg"
-#  }
-#}
 
 resource "aws_security_group" "sg" {
   name        = "${var.component}-${var.env}-sg"
