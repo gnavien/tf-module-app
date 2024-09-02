@@ -59,26 +59,26 @@ resource "aws_security_group" "sg" {
   name        = "${var.component}-${var.env}-sg"
   description = "${var.component}-${var.env}-sg"
 
-}
 
-# Here we are opening all the ports
-ingress {
-  from_port   = 0
-  to_port     = 0
-  protocol    = "-1"  # -1 opens all the ports
-  cidr_blocks = ["0.0.0.0/0"]
-}
 
-egress {
-  from_port   = 0
-  to_port     = 0
-  protocol    = "-1"
-  cidr_blocks = ["0.0.0.0/0"]
-}
-tags = {
-  Name = "${var.component}-${var.env}-sg"
-}
+  # Here we are opening all the ports
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"  # -1 opens all the ports
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "${var.component}-${var.env}-sg"
+  }
+}
 ## EC2
 ## For EC2 we would require data for aws ami which is stored in data.tf file
 
