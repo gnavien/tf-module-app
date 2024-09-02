@@ -54,18 +54,40 @@ resource "aws_iam_instance_profile" "instance_profile" {
 }
 ## Security group
 
+#
+#resource "aws_security_group" "sg" {
+#  name        = "${var.component}-${var.env}-sg"
+#  description = "${var.component}-${var.env}-sg"
+#
+#
+#
+#  # Here we are opening all the ports
+#  ingress {
+#    from_port   = 0
+#    to_port     = 0
+#    protocol    = "-1"  # -1 opens all the ports
+#    cidr_blocks = ["0.0.0.0/0"]
+#  }
+#
+#  egress {
+#    from_port   = 0
+#    to_port     = 0
+#    protocol    = "-1"
+#    cidr_blocks = ["0.0.0.0/0"]
+#  }
+#  tags = {
+#    Name = "${var.component}-${var.env}-sg"
+#  }
+#}
 
 resource "aws_security_group" "sg" {
   name        = "${var.component}-${var.env}-sg"
   description = "${var.component}-${var.env}-sg"
 
-
-
-  # Here we are opening all the ports
   ingress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"  # -1 opens all the ports
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -75,6 +97,7 @@ resource "aws_security_group" "sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
   tags = {
     Name = "${var.component}-${var.env}-sg"
   }
