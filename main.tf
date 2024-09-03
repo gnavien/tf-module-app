@@ -3,7 +3,7 @@
 ## IAM policy  https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy
 # In this component variable we have declared in variables.tf file
 # For creating a policy, first create it manually and then copy the json file
-# ARN is unique to each AWS account
+# ARN is unique to each AWS account 968585591903 is the account id
 resource "aws_iam_policy" "policy" {
   name        = "${var.component}-${var.env}-ssm-pm-policy"
   path        = "/"
@@ -110,7 +110,7 @@ resource "aws_route53_record" "dns" {
 ## Null Resource - Ansible
 
 resource "null_resource" "ansible" {
-  depends_on = [aws_instance.instance,aws_route53_record.dns] # We have written this once ec2 instances and route 53 records have been created we need to start the remote execution.
+  depends_on = [aws_instance.instance, aws_route53_record.dns] # We have written this once ec2 instances and route 53 records have been created we need to start the remote execution.
    provisioner "remote-exec" {
 
     connection {
