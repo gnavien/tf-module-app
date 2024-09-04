@@ -15,12 +15,6 @@ resource "aws_iam_policy" "policy" {
       {
         "Sid": "VisualEditor0",
         "Effect": "Allow",
-        "Action": [
-          "ssm:GetParameterHistory",
-          "ssm:GetParametersByPath",
-          "ssm:GetParameters",
-          "ssm:GetParameter"
-        ],
         "Resource": "arn:aws:ssm:us-east-1:968585591903:parameter/roboshop-${var.env}.${var.component}.*"
       }
     ]
