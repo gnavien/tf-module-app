@@ -28,6 +28,20 @@ resource "aws_iam_policy" "policy" {
 }
 
 
+#"Statement": [
+#  {
+#    "Sid": "VisualEditor0",
+#    "Effect": "Allow",
+#    "Action": [
+#      "ssm:GetParameterHistory",
+#      "ssm:GetParametersByPath",
+#      "ssm:GetParameters",
+#      "ssm:GetParameter"
+#    ],
+#    "Resource": "arn:aws:ssm:us-east-1:968585591903:parameter/roboshop-${var.env}.${var.component}.*"
+#  }
+
+
 ## IAM role
 ## We have created a role manually, select trust relationship tab and copy the role information
 ##  After creaton of role we need to attach the policy to the role.
