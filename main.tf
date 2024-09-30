@@ -44,7 +44,7 @@ resource "aws_iam_policy" "policy" {
 
 ## IAM role
 ## We have created a role manually, select trust relationship tab and copy the role information
-##  After creaton of role we need to attach the policy to the role.
+##  After creation of role we need to attach the policy to the role.
 
 resource "aws_iam_role" "role" {
   name = "${var.component}-${var.env}-EC2-Role"
