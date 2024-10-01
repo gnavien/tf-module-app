@@ -1,7 +1,7 @@
 # Steps to be followed to create a new ec2 instance
 
 ## IAM policy  https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy
-# In this component variable we have declared in variables.tf file
+# In this component variable we have declared in variables.tf.tf file
 # For creating a policy, first create it manually and then copy the json file
 # ARN is unique to each AWS account 968585591903 is the account id
 resource "aws_iam_policy" "policy" {
