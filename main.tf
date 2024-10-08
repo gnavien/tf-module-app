@@ -4,6 +4,8 @@
 ## In this component variable we have declared in variables.tf.tf file
 ## For creating a policy, first create it manually and then copy the json file
 ## ARN is unique to each AWS account 968585591903 is the account id
+
+
 #resource "aws_iam_policy" "policy" {
 #  name        = "${var.component}-${var.env}-ssm-pm-policy"
 #  path        = "/"
@@ -21,7 +23,7 @@
 #                "ssm:GetParameters",
 #                "ssm:GetParameter"
 #             ]
-#        "Resource": "arn:aws:ssm:us-east-1:968585591903:parameter/roboshop-${var.env}.${var.component}.*"
+#        "Resource": "arn:aws:ssm:us-east-1:339713020180:parameter/roboshop-${var.env}.${var.component}.*" # location to get parameter AWS Systems Manager-->Parameter Store-->roboshop.dev.cart.redis_host-->Overview
 #      }
 #    ]
 #  })
