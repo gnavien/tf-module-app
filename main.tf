@@ -50,20 +50,21 @@ resource "aws_launch_template" "main" {
   }))
 
   # Below block is to encrypt our disk
-  block_device_mappings {
-    device_name = "/dev/sda1"
-    ebs {
-      volume_size = var.volume_size
-      encrypted = "true"
-      kms_key_id = var.kms_key_id
-    }
-  }
+#  block_device_mappings {
+#    device_name = "/dev/sda1"
+#    ebs {
+#      volume_size = var.volume_size
+#      encrypted = "true"
+#      kms_key_id = var.kms_key_id
+#    }
+#  }
 
 }
 
 #### 3  #####
 
 resource "aws_autoscaling_group" "main" {
+  name = "${var.component}-${var.env}"
   desired_capacity   = var.desired_capacity
   max_size           = var.max_size
   min_size           = var.min_size
