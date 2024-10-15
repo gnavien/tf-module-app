@@ -15,3 +15,6 @@ variable "desired_capacity" {}
 variable "max_size" {}
 variable "min_size" {}
 variable "kms_key_id" {}
+variable "volume_size" {
+  default = 10
+}

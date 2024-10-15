@@ -48,10 +48,16 @@ resource "aws_launch_template" "main" {
     component = var.component
   }))
 
-  root_block_device = {
-    encrypted = true
-    kms_key_id = var.kms_key_id
+  # Below block is to encrypt our disk
+  block_device_mappings {
+    device_name = "/dev/sda1"
+    ebs {
+      volume_size = var.volume_size
+      encrypted = "true"
+      kms_key_id = var.kms_key_id
+    }
   }
+
 }
 
 #### 3  #####
