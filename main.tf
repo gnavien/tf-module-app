@@ -33,6 +33,18 @@ resource "aws_security_group" "main" {
   }
 }
 
+#### 4 #####
+# We need to create target group before creating the instance
+
+resource "aws_lb_target_group" "main" {
+  name     = "${var.component}-${var.env}-tg"
+  port     = var.app_port
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+}
+
+
+
 #### 1  ####
 # We need launch template to create ec2 instance
 
@@ -71,17 +83,19 @@ resource "aws_launch_template" "main" {
 #### 3  #####
 
 resource "aws_autoscaling_group" "main" {
-  name = "${var.component}-${var.env}"
-  desired_capacity   = var.desired_capacity
-  max_size           = var.max_size
-  min_size           = var.min_size
+  name                = "${var.component}-${var.env}"
+  desired_capacity    = var.desired_capacity
+  max_size            = var.max_size
+  min_size            = var.min_size
   vpc_zone_identifier = var.subnets # At least one Availability Zone or VPC Subnet is required
+  target_group_arns   = aws_lb_target_group.main.arn # This way your autoscaling group will be attached to the target group arn automatically
 
   launch_template {
     id      = aws_launch_template.main.id
     version = "$Latest"
   }
 }
+
 
 
 
