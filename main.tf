@@ -40,7 +40,7 @@ resource "aws_launch_template" "main" {
 
   tag_specifications {
     resource_type = "instance"
-    tags = merge({ Name = "${var.component}-${var.env}" Monitor = "true" }, var.tags) # Monitor tag is for prometheus monitoring key word
+    tags = merge({ Name = "${var.component}-${var.env}", Monitor = "true" }, var.tags) # Monitor tag is for prometheus monitoring key word
   }
 
   user_data = base64encode(templatefile("${path.module}/userdata.sh", {
