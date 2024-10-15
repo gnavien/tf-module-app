@@ -66,6 +66,7 @@ resource "aws_autoscaling_group" "main" {
   desired_capacity   = var.desired_capacity
   max_size           = var.max_size
   min_size           = var.min_size
+  vpc_zone_identifier = var.subnets # At least one Availability Zone or VPC Subnet is required
 
   launch_template {
     id      = aws_launch_template.main.id
