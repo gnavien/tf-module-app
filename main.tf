@@ -101,7 +101,7 @@ resource "aws_lb_target_group" "main" {
 
 resource "aws_route53_record" "dns"{
   zone_id = "Z0882917IBD3RSFVPY9W" # We have to enter the default zone ID
-  name    = "${var.component}-${var.env}-dns"
+  name    = "${var.component}-${var.env}"
   type    = "CNAME"
   ttl     = "30"
   records = [var.lb_dns_name]
