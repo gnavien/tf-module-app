@@ -47,6 +47,11 @@ resource "aws_launch_template" "main" {
     env       = var.env
     component = var.component
   }))
+
+  root_block_device = {
+    encrypted = true
+    kms_key_id = var.kms_key_id
+  }
 }
 
 #### 3  #####
