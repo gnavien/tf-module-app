@@ -59,6 +59,15 @@ resource "aws_launch_template" "main" {
 #    }
 #  }
 
+  block_device_mappings {
+    device_name = "/dev/xvda"
+    ebs {
+      volume_size           = 8
+      volume_type           = "gp2"
+      encrypted             = true
+      delete_on_termination = true
+    }
+  }
 }
 
 #### 3  #####
