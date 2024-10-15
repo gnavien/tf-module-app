@@ -5,6 +5,7 @@
 resource "aws_security_group" "main" {
   name        = "${var.component}-${var.env}-sg"
   description = "${var.component}-${var.env}-sg"
+  vpc_id = var.vpc_id # If we dont mention our required vpc it will create in default vpc
 
   ingress {
     from_port   = var.app_port
