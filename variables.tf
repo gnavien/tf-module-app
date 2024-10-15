@@ -16,3 +16,6 @@ variable "max_size" {}
 variable "min_size" {}
 variable "kms_key_id" {}
 variable "allow_ssh_cidr" {}
+variable "lb_dns_name" {}
+variable "listener_arn" {}
+variable "lb_rule_priority" {}

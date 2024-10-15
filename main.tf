@@ -1,3 +1,37 @@
+#### 1  ####
+# We need launch template to create ec2 instance
+
+resource "aws_launch_template" "main" {
+  name = "${var.component}-${var.env}"
+
+  iam_instance_profile {
+    name = aws_iam_instance_profile.instance_profile.name
+  }
+  image_id = data.aws_ami.ami.id
+  instance_type = var.instance_type
+  vpc_security_group_ids = [ aws_security_group.main.id ]
+
+  tag_specifications {
+    resource_type = "instance"
+    tags = merge({ Name = "${var.component}-${var.env}", Monitor = "true" }, var.tags) # Monitor tag is for prometheus monitoring key word
+  }
+
+  user_data = base64encode(templatefile("${path.module}/userdata.sh", {
+    env       = var.env
+    component = var.component
+  }))
+
+  # Below block is to encrypt our disk
+  #  block_device_mappings {
+  #    device_name = "/dev/sda1"
+  #    ebs {
+  #      volume_size = var.volume_size
+  #      encrypted = "true"
+  #      kms_key_id = var.kms_key_id
+  #    }
+  #  }
+
+}
 
 ### Security group
 #### 2 #####
@@ -33,53 +67,6 @@ resource "aws_security_group" "main" {
   }
 }
 
-#### 4 #####
-# We need to create target group before creating the instance
-
-resource "aws_lb_target_group" "main" {
-  name     = "${var.component}-${var.env}-tg"
-  port     = var.app_port
-  protocol = "HTTP"
-  vpc_id   = var.vpc_id
-}
-
-
-
-#### 1  ####
-# We need launch template to create ec2 instance
-
-resource "aws_launch_template" "main" {
-  name = "${var.component}-${var.env}"
-
-  iam_instance_profile {
-    name = aws_iam_instance_profile.instance_profile.name
-  }
-  image_id = data.aws_ami.ami.id
-  instance_type = var.instance_type
-  vpc_security_group_ids = [ aws_security_group.main.id ]
-
-  tag_specifications {
-    resource_type = "instance"
-    tags = merge({ Name = "${var.component}-${var.env}", Monitor = "true" }, var.tags) # Monitor tag is for prometheus monitoring key word
-  }
-
-  user_data = base64encode(templatefile("${path.module}/userdata.sh", {
-    env       = var.env
-    component = var.component
-  }))
-
-  # Below block is to encrypt our disk
-#  block_device_mappings {
-#    device_name = "/dev/sda1"
-#    ebs {
-#      volume_size = var.volume_size
-#      encrypted = "true"
-#      kms_key_id = var.kms_key_id
-#    }
-#  }
-
-}
-
 #### 3  #####
 
 resource "aws_autoscaling_group" "main" {
@@ -94,6 +81,52 @@ resource "aws_autoscaling_group" "main" {
     id      = aws_launch_template.main.id
     version = "$Latest"
   }
+}
+
+#### 4 #####
+# We need to create target group before creating the instance
+
+resource "aws_lb_target_group" "main" {
+  name     = "${var.component}-${var.env}-tg"
+  port     = var.app_port
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+}
+
+
+
+
+#### 5 #####
+
+
+resource "aws_route53_record" "dns"{
+  zone_id = "aws_route53_record.zone_id" # We have to enter the default zone ID
+  name    = "${var.component}-${var.env}-dns"
+  type    = "CNAME"
+  ttl     = "30"
+  records = [var.lb_dns_name]
+
+}
+
+#### 6 #####
+# Once we have added the target groups we need to add listener rule
+
+resource "aws_lb_listener_rule" "main" {
+  listener_arn = var.listener_arn # We are getting the listener arn from the alb module so we will take from the output.tf file of alb module
+  priority     = var.lb_rule_priority   # In which order you want to execute the component and the number is given as input in main.tfvars
+
+  action {
+    type             = "forward"  # where you to forward the component
+    target_group_arn = aws_lb_target_group.main.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["${var.component}-${var.env}.saty.fun"] # saty.fun or navien.site should be mentioned based on the route 53 registration
+    }
+  }
+
+
 }
 
 
