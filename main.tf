@@ -88,7 +88,7 @@ resource "aws_autoscaling_group" "main" {
   max_size            = var.max_size
   min_size            = var.min_size
   vpc_zone_identifier = var.subnets # At least one Availability Zone or VPC Subnet is required
-  target_group_arns   = aws_lb_target_group.main.arn # This way your autoscaling group will be attached to the target group arn automatically
+  target_group_arns   = [ aws_lb_target_group.main.arn ] # This way your autoscaling group will be attached to the target group arn automatically
 
   launch_template {
     id      = aws_launch_template.main.id
