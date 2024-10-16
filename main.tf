@@ -121,7 +121,7 @@ resource "aws_lb_listener_rule" "main" {
   }
 
   condition {
-    path_pattern {
+    host_header {
       values = ["${var.component}-${var.env}.navien.site"] # saty.fun or navien.site should be mentioned based on the route 53 registration
     }
   }
