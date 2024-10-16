@@ -91,6 +91,19 @@ resource "aws_lb_target_group" "main" {
   port     = var.app_port
   protocol = "HTTP"
   vpc_id   = var.vpc_id
+
+# Below health check is required for each component it keeps checking with the below rules
+  health_check {
+    enabled             = true
+    interval            = 5
+    path                = "/health"
+    port                = var.app_port
+    protocol            = "HTTP"
+    timeout             = 4
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+
 }
 
 
