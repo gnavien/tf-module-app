@@ -24,6 +24,8 @@ resource "aws_iam_policy" "policy" {
                 "ssm:GetParameter"
              ]
         "Resource": "arn:aws:ssm:us-east-1:968585591903:parameter/roboshop-${var.env}.${var.component}.*" # location to get parameter AWS Systems Manager-->Parameter Store-->roboshop.dev.cart.redis_host-->Overview
+
+        "Resource": "arn:aws:ssm:us-east-1:851725482328:parameter/roboshop-${var.env}.${var.component}.*"
       }
     ]
   })
