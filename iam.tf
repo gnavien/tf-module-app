@@ -15,18 +15,21 @@ resource "aws_iam_policy" "policy" {
     "Version": "2012-10-17",
     "Statement": [
       {
-        "Sid": "VisualEditor0",
-        "Effect": "Allow",
-        "Action": [
-               "ssm:GetParameterHistory",
-                "ssm:GetParametersByPath",
-                "ssm:GetParameters",
-                "ssm:GetParameter"
-             ]
-        "Resource": "arn:aws:ssm:us-east-1:968585591903:parameter/roboshop-${var.env}.${var.component}.*" # location to get parameter AWS Systems Manager-->Parameter Store-->roboshop.dev.cart.redis_host-->Overview
-
-#        "Resource": "arn:aws:ssm:us-east-1:851725482328:parameter/roboshop-${var.env}.${var.component}.*"
+        "Sid" : "VisualEditor0",
+        "Effect" : "Allow",
+        "Action" : [
+          "ssm:GetParameterHistory",
+          "ssm:GetParametersByPath",
+          "ssm:GetParameters",
+          "ssm:GetParameter",
+          "kms:Decrypt"  # since parameter were all encrypted so  we need access to decrypt the key
+        ]
+        #
+        "Resource" : concat([
+          "arn:aws:ssm:us-east-1:739561048503:parameter/roboshop.${var.env}.${var.component}.*",
+           var.kms_arn ], var.extra_param_access)
       }
+
     ]
   })
 }
