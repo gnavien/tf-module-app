@@ -31,6 +31,7 @@ resource "aws_iam_policy" "policy" {
       }
 
     ]
+    # mysql and docdb would require extra parameters or permissions to access
   })
 }
 
